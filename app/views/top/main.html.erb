@@ -1,0 +1,58 @@
+<h1>ツイート一覧</h1>
+<% @tweets.each do |tweet| %>
+  <p>
+    <%= tweet.user.uid %>：
+    <%= tweet.message %>
+
+    いいね数：<%= tweet.likes.count %>
+
+    <% if session[:login_uid] %>
+      <%= link_to "いいね", likes_path(tweet_id: tweet.id),
+          data: { turbo_method: :post } %>
+
+      <%= link_to "いいね削除", like_path(tweet),
+          data: { turbo_method: :delete } %>
+    <% end %>
+  </p>
+<% end %>
+
+<hr>
+
+<% if session[:login_uid] %>
+  <p>
+    ログイン中：<%= session[:login_uid] %>
+    <%= link_to "ログアウト", top_logout_path %>
+  </p>
+
+  <h2>ツイート投稿</h2>
+
+  <%= form_with model: @tweet do |f| %>
+    <%= f.text_field :message %>
+    <%= f.submit "投稿" %>
+  <% end %>
+
+<% else %>
+  <h2>ログイン</h2>
+
+  <%= form_tag top_login_path do %>
+    <p>
+      <%= label_tag :uid, "ユーザID" %>
+      <%= text_field_tag :uid %>
+    </p>
+
+    <p>
+      <%= label_tag :pass, "パスワード" %>
+      <%= password_field_tag :pass %>
+    </p>
+
+    <%= submit_tag "ログイン" %>
+  <% end %>
+
+  <p>
+    <%= link_to "ユーザ登録", new_user_path %>
+  </p>
+
+<% end %>
+
+
+

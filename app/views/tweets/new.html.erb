@@ -1,0 +1,10 @@
+<h1>ツイート投稿</h1>
+
+<%= form_with model: @tweet do |f| %>
+  <p>
+    <%= f.label :message, "メッセージ" %>
+    <%= f.text_field :message %>
+  </p>
+
+  <%= f.submit "投稿" %>
+<% end %>
