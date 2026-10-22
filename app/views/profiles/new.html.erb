@@ -1,0 +1,12 @@
+<h1>プロフィール登録</h1>
+
+<%= form_with model: @profile do |f| %>
+  <p>
+    <%= f.label :message, "プロフィール" %>
+    <%= f.text_field :message %>
+  </p>
+
+  <%= f.submit "登録" %>
+<% end %>
+
+<%= link_to "トップページへ", root_path %>
