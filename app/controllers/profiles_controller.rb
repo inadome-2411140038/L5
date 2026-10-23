@@ -4,10 +4,8 @@ class ProfilesController < ApplicationController
   end
 
   def create
-    user = User.find_by(uid: session[:login_uid])
-
     profile = Profile.new(message: params[:profile][:message])
-    profile.user = user
+    profile.user = current_user
     profile.save
 
     redirect_to root_path

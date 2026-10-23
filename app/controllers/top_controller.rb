@@ -3,20 +3,16 @@ class TopController < ApplicationController
     @tweets = Tweet.all
     @tweet = Tweet.new
 
-    if session[:login_uid]
-      user = User.find_by(uid: session[:login_uid])
-      @profile = user.profile
+    if current_user
+      @profile = current_user.profile
     end
   end
 
   def login
-    uid = params[:uid]
-    pass = params[:pass]
+    user = User.find_by(uid: params[:uid])
 
-    user = User.find_by(uid: uid)
-
-    if user != nil && BCrypt::Password.new(user.pass) == pass
-      session[:login_uid] = uid
+    if user && user.authenticate(params[:pass])
+      session[:login_uid] = user.uid
       redirect_to root_path
     else
       redirect_to root_path
